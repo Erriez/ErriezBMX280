@@ -1,6 +1,6 @@
 {
     "name": "ErriezBMX280",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": "arduino, library, bmp280, bme280, i2c, temperature, pressure, humidity, sensor, altitude, hpa, high-resolution, continues-mode, one-time-mode, low-power, build-scripts, documentation, examples",
     "description": "BMP280 / BME280 temperature / pressure / altitude / humidity sensor library for Arduino.",
     "homepage": "https://github.com/Erriez/ErriezBMX280",

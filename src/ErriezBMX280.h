@@ -166,9 +166,9 @@ public:
     void write8(uint8_t reg, uint8_t value);
 
 private:
-    uint8_t _i2cAddr;   //<! I2C address
-    uint8_t _chipID;    //<! Chip iD
-    int32_t _t_fine;    //<! Temperature variable
+    uint8_t _i2cAddr;   //!< I2C address
+    uint8_t _chipID;    //!< Chip iD
+    int32_t _t_fine;    //!< Temperature variable
 
     uint16_t _dig_T1;
     int16_t _dig_T2;

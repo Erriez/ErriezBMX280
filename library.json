@@ -5,18 +5,21 @@
     "description": "BMP280 / BME280 temperature / pressure / altitude / humidity sensor library for Arduino.",
     "homepage": "https://github.com/Erriez/ErriezBMX280",
     "license": "MIT",
-    "authors": {
+    "authors":
+    {
         "name": "Erriez",
-        "url": "https://github.com/Erriez/ErriezArduinoLibrariesAndSketches",
+        "url": "https://github.com/Erriez",
         "maintainer": true
     },
-    "repository": {
+    "repository":
+    {
         "type": "git",
         "url": "https://github.com/Erriez/ErriezBMX280.git",
         "branch": "master"
     },
     "frameworks": "arduino",
-    "platforms": [
+    "platforms":
+    [
         "atmelavr",
         "atmelsam",
         "espressif8266",

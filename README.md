@@ -6,29 +6,30 @@ This is a BMP280/BME280 temperature/pressure/humidity sensor library for Arduino
 
 ![BMX280](https://raw.githubusercontent.com/Erriez/ErriezBMX280/master/extras/BMX280.png)
 
+
 ## Arduino library features
 
-- Measurement in LUX
+- Measurements:
+    - BMP280: Temperature / pressure / approximate altitude
+    - BME280: Temperature / pressure / approximate altitude / humidity
 - Three operation modes:
-  - Continues conversion
-  - One-time conversion
-- Three selectable resolutions:
-  - Low 4 LUX resolution (low power)
-  - High 1 LUX resolution
-  - High 0.5 LUX resolution
-- Asynchronous and synchronous conversion
+  - Normal mode: Continues conversion
+  - Forced mode: One-time conversion
+  - Standby mode: Low-power, no conversion
+- Sampling configuration
+- Chip detect / read chip ID
+- I2C interface only
+- Small flash/RAM footprint
 
 
 ## BMP280/BME280 sensor specifications
 
-- BMP280: Temperature/pressure
-- BME280: Temperature/pressure/humidity
 - Operating voltage: 1.71V .. 3.6V max
 - Low current:
-    - 1.8 μA @ 1 Hz humidity and temperature
-    - 2.8 μA @ 1 Hz pressure and temperature
-    - 3.6 μA @ 1 Hz humidity, pressure and temperature
-    - 0.1 μA in sleep mode
+    - 1.8 uA @ 1 Hz humidity and temperature
+    - 2.8 uA @ 1 Hz pressure and temperature
+    - 3.6 uA @ 1 Hz humidity, pressure and temperature
+    - 0.1 uA in sleep mode
 - Operating range: -40...+85 °C, 0...100 % rel. humidity, 300...1100 hPa
 - I2C bus interface: max 3.4 MHz
 - No additional electronic components needed
@@ -36,7 +37,7 @@ This is a BMP280/BME280 temperature/pressure/humidity sensor library for Arduino
 
 ## Hardware
 
-**Connection Arduino UNO board - BMX280**
+**Connection Arduino board - BMX280 sensor**
 
 | Pins board - BMX280            | VCC  | GND  |    SDA     |    SCL     |
 | ------------------------------ | :--: | :--: | :--------: | :--------: |
@@ -61,8 +62,8 @@ Examples | Erriez BMP280/BME280 sensor:
 
 - [Doxygen online HTML](https://erriez.github.io/ErriezBMX280)
 - [Doxygen PDF](https://github.com/Erriez/ErriezBMX280/raw/master/ErriezBMX280.pdf)
-- [BMP280 chip datasheet](https://github.com/Erriez/ErriezBMX280/raw/master/extras/BMP280_datsheet.pdf)
-- [BME280 chip datasheet](https://github.com/Erriez/ErriezBMX280/raw/master/extras/BME280_datsheet.pdf)
+- [BMP280 chip datasheet](https://github.com/Erriez/ErriezBMX280/blob/master/extras/BMP280_datasheet.pdf)
+- [BME280 chip datasheet](https://github.com/Erriez/ErriezBMX280/blob/master/extras/BME280_datasheet.pdf)
 
 
 ## Example
@@ -160,7 +161,7 @@ Altitude:    11.21 m
 ### Set sampling
 
 The sensor sampling and mode can be configured with function `setSampling()`. Recommended modes of
-operation according to the datasheet:
+operation according to the datasheet chapter "Recommended modes of operation":
 
 ```c++
 // Set sampling

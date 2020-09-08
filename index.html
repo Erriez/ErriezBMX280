@@ -72,30 +72,30 @@ $(function() {
 </div>
 <h2>Arduino library features</h2>
 <ul>
-<li>Measurement in LUX</li>
+<li>Measurements:<ul>
+<li>BMP280: Temperature / pressure / approximate altitude</li>
+<li>BME280: Temperature / pressure / approximate altitude / humidity</li>
+</ul>
+</li>
 <li>Three operation modes:<ul>
-<li>Continues conversion</li>
-<li>One-time conversion</li>
+<li>Normal mode: Continues conversion</li>
+<li>Forced mode: One-time conversion</li>
+<li>Standby mode: Low-power, no conversion</li>
 </ul>
 </li>
-<li>Three selectable resolutions:<ul>
-<li>Low 4 LUX resolution (low power)</li>
-<li>High 1 LUX resolution</li>
-<li>High 0.5 LUX resolution</li>
-</ul>
-</li>
-<li>Asynchronous and synchronous conversion</li>
+<li>Sampling configuration</li>
+<li>Chip detect / read chip ID</li>
+<li>I2C interface only</li>
+<li>Small flash/RAM footprint</li>
 </ul>
 <h2>BMP280/BME280 sensor specifications</h2>
 <ul>
-<li>BMP280: Temperature/pressure</li>
-<li>BME280: Temperature/pressure/humidity</li>
 <li>Operating voltage: 1.71V .. 3.6V max</li>
 <li>Low current:<ul>
-<li>1.8 μA @ 1 Hz humidity and temperature</li>
-<li>2.8 μA @ 1 Hz pressure and temperature</li>
-<li>3.6 μA @ 1 Hz humidity, pressure and temperature</li>
-<li>0.1 μA in sleep mode</li>
+<li>1.8 uA @ 1 Hz humidity and temperature</li>
+<li>2.8 uA @ 1 Hz pressure and temperature</li>
+<li>3.6 uA @ 1 Hz humidity, pressure and temperature</li>
+<li>0.1 uA in sleep mode</li>
 </ul>
 </li>
 <li>Operating range: -40...+85 °C, 0...100 % rel. humidity, 300...1100 hPa</li>
@@ -103,7 +103,7 @@ $(function() {
 <li>No additional electronic components needed</li>
 </ul>
 <h2>Hardware</h2>
-<p><b>Connection Arduino UNO board - BMX280</b></p>
+<p><b>Connection Arduino board - BMX280 sensor</b></p>
 <table class="doxtable">
 <tr>
 <th>Pins board - BMX280 </th><th align="center">VCC </th><th align="center">GND </th><th align="center">SDA </th><th align="center">SCL  </th></tr>
@@ -130,12 +130,12 @@ $(function() {
 <ul>
 <li><a href="https://erriez.github.io/ErriezBMX280">Doxygen online HTML</a></li>
 <li><a href="https://github.com/Erriez/ErriezBMX280/raw/master/ErriezBMX280.pdf">Doxygen PDF</a></li>
-<li><a href="https://github.com/Erriez/ErriezBMX280/raw/master/extras/BMP280_datsheet.pdf">BMP280 chip datasheet</a></li>
-<li><a href="https://github.com/Erriez/ErriezBMX280/raw/master/extras/BME280_datsheet.pdf">BME280 chip datasheet</a></li>
+<li><a href="https://github.com/Erriez/ErriezBMX280/blob/master/extras/BMP280_datasheet.pdf">BMP280 chip datasheet</a></li>
+<li><a href="https://github.com/Erriez/ErriezBMX280/blob/master/extras/BME280_datasheet.pdf">BME280 chip datasheet</a></li>
 </ul>
 <h2>Example</h2>
 <div class="fragment"><div class="line">{c++}</div><div class="line">#include &lt;Wire.h&gt;</div><div class="line">#include &lt;ErriezBMX280.h&gt;</div><div class="line"></div><div class="line">// Adjust sea level for altitude calculation</div><div class="line">#define SEA_LEVEL_PRESSURE_HPA      1026.25</div><div class="line"></div><div class="line">// Create BMX280 object I2C address 0x76 or 0x77</div><div class="line">ErriezBMX280 bmx280 = ErriezBMX280(0x76);</div><div class="line"></div><div class="line"></div><div class="line">void setup()</div><div class="line">{</div><div class="line">    // Initialize serial</div><div class="line">    delay(500);</div><div class="line">    Serial.begin(115200);</div><div class="line">    while (!Serial) {</div><div class="line">        ;</div><div class="line">    }</div><div class="line">    Serial.println(F(&quot;\nErriez BMP280/BMX280 example&quot;));</div><div class="line"></div><div class="line">    // Initialize I2C bus</div><div class="line">    Wire.begin();</div><div class="line">    Wire.setClock(400000);</div><div class="line"></div><div class="line">    // Initialize sensor</div><div class="line">    while (!bmx280.begin()) {</div><div class="line">        Serial.println(F(&quot;Error: Could not detect sensor&quot;));</div><div class="line">        delay(3000);</div><div class="line">    }</div><div class="line"></div><div class="line">    // Print sensor type</div><div class="line">    Serial.print(F(&quot;\nSensor type: &quot;));</div><div class="line">    switch (bmx280.getChipID()) {</div><div class="line">        case CHIP_ID_BMP280:</div><div class="line">            Serial.println(F(&quot;BMP280\n&quot;));</div><div class="line">            break;</div><div class="line">        case CHIP_ID_BME280:</div><div class="line">            Serial.println(F(&quot;BME280\n&quot;));</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">            Serial.println(F(&quot;Unknown\n&quot;));</div><div class="line">            break;</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">void loop()</div><div class="line">{</div><div class="line">    Serial.print(F(&quot;Temperature: &quot;));</div><div class="line">    Serial.print(bmx280.readTemperature());</div><div class="line">    Serial.println(&quot; C&quot;);</div><div class="line"></div><div class="line">    if (bmx280.getChipID() == CHIP_ID_BME280) {</div><div class="line">        Serial.print(F(&quot;Humidity:    &quot;));</div><div class="line">        Serial.print(bmx280.readHumidity());</div><div class="line">        Serial.println(&quot; %&quot;);</div><div class="line">    }</div><div class="line"></div><div class="line">    Serial.print(F(&quot;Pressure:    &quot;));</div><div class="line">    Serial.print(bmx280.readPressure() / 100.0F);</div><div class="line">    Serial.println(&quot; hPa&quot;);</div><div class="line"></div><div class="line">    Serial.print(F(&quot;Altitude:    &quot;));</div><div class="line">    Serial.print(bmx280.readAltitude(SEA_LEVEL_PRESSURE_HPA));</div><div class="line">    Serial.println(&quot; m&quot;);</div><div class="line"></div><div class="line">    Serial.println();</div><div class="line"></div><div class="line">    delay(1000);</div><div class="line">}</div></div><!-- fragment --><p> <b>Output</b> </p><div class="fragment"><div class="line">{c++}</div><div class="line">Erriez BMP280/BMX280 example</div><div class="line"></div><div class="line">Sensor type: BME280</div><div class="line"></div><div class="line">Temperature: 28.50 C</div><div class="line">Humidity:    45.13 %</div><div class="line">Pressure:    1024.88 hPa</div><div class="line">Altitude:    11.27 m</div><div class="line"></div><div class="line">Temperature: 28.55 C</div><div class="line">Humidity:    45.21 %</div><div class="line">Pressure:    1024.89 hPa</div><div class="line">Altitude:    11.21 m</div><div class="line"></div><div class="line">...</div></div><!-- fragment --><h3>Set sampling</h3>
-<p>The sensor sampling and mode can be configured with function <code>setSampling()</code>. Recommended modes of operation according to the datasheet:</p>
+<p>The sensor sampling and mode can be configured with function <code>setSampling()</code>. Recommended modes of operation according to the datasheet chapter "Recommended modes of operation":</p>
 <div class="fragment"><div class="line">{c++}</div><div class="line">// Set sampling</div><div class="line">//</div><div class="line">// Weather</div><div class="line">//  - forced mode, 1 sample / minute</div><div class="line">//  - pressure ×1, temperature ×1, humidity ×1</div><div class="line">//  - filter off</div><div class="line">//</div><div class="line">// Humidity sensing</div><div class="line">//  - forced mode, 1 sample / second</div><div class="line">//  - pressure ×0, temperature ×1, humidity ×1</div><div class="line">//  - filter off</div><div class="line">//</div><div class="line">// Indoor navigation</div><div class="line">//  - normal mode, t standby = 0.5 ms</div><div class="line">//  - pressure ×16, temperature ×2, humidity ×1</div><div class="line">//  - filter coefficient 16</div><div class="line">//</div><div class="line">// Gaming</div><div class="line">//  - forced mode, t standby = 0.5 ms</div><div class="line">//  - pressure ×1, temperature ×1, humidity ×1</div><div class="line">//  - filter off</div><div class="line">bmx280.setSampling(BMX280_MODE_NORMAL,    // SLEEP, FORCED, NORMAL</div><div class="line">                   BMX280_SAMPLING_X16,   // Temp:  NONE, X1, X2, X4, X8, X16</div><div class="line">                   BMX280_SAMPLING_X16,   // Press: NONE, X1, X2, X4, X8, X16</div><div class="line">                   BMX280_SAMPLING_X16,   // Hum:   NONE, X1, X2, X4, X8, X16 (BME280)</div><div class="line">                   BMX280_FILTER_X16,     // OFF, X2, X4, X8, X16</div><div class="line">                   BMX280_STANDBY_MS_500);// 0_5, 10, 20, 62_5, 125, 250, 500, 1000</div></div><!-- fragment --><h2>Library dependencies</h2>
 <ul>
 <li>Built-in <code>Wire.h</code></li>
